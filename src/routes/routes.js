@@ -14,7 +14,7 @@ app.get('/authenticated', (req, res)=> {
     );
 });
 
-app.use('/error', (req, res, next) => {
+app.get('/error', (req, res, next) => {
     throw new CustomException(450, 'UNKNOWN', 'Message quelconque');
 })
 
