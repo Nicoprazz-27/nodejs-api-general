@@ -1,10 +1,10 @@
 const { createLogger, format , transports} = require('winston');
-const { combine, timestamp, label, printf } = format;
+const { combine, timestamp, printf } = format;
 const { getDate, getProjectPath } = require('./fonction');
 const fs = require('fs');
 
 
-const myFormat = printf(({ level, message, label, timestamp }) => {
+const myFormat = printf(({ level, message, timestamp }) => {
   return `${timestamp} ${level.toLocaleUpperCase()} ${message}`;
 });
 
@@ -16,14 +16,29 @@ if (!fs.existsSync(logPath)) {
     fs.mkdirSync(logPath, { recursive: true });
 }
 
-module.exports = createLogger({
-    format: combine(
-      //label({ label: 'message' }),
-      timestamp(),
-      myFormat
-    ),
-    defaultMeta: { service: 'user-service' },
-    transports: [
-      new transports.File({ filename: logPath + '/requests.log' }),
-    ],
-  }); 
+const requestLogger = createLogger({
+  format: combine(
+    timestamp(),
+    myFormat
+  ),
+  defaultMeta: { service: 'user-service' },
+  transports: [
+    new transports.File({ filename: logPath + '/requests.log' })
+  ],
+}); 
+
+
+const appLogger = createLogger({
+  format: combine(
+    timestamp(),
+    myFormat
+  ),
+  defaultMeta: { service: 'user-service' },
+  transports: [
+    new transports.File({ filename: logPath + '/app.log' })
+  ],
+}); 
+
+
+module.exports.requestLogger = requestLogger;
+module.exports.appLogger = appLogger;

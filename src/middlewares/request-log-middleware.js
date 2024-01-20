@@ -1,4 +1,4 @@
-const logger = require('../utils/logger');
+const { requestLogger } = require('../utils/logger');
 
 /**
  * 
@@ -16,7 +16,7 @@ module.exports = function(req, res, next){
         authorization: req.headers['authorization']
     };
 
-    logger.info(JSON.stringify(message));
+    requestLogger.info(JSON.stringify(message));
 
     next();
 }
