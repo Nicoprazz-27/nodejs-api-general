@@ -1,5 +1,6 @@
-const { log } = require('console');
 const path = require('path');
+const dotenv = require('dotenv');
+
 
 module.exports.getDate = () => {
     const todayDate = new Date();
@@ -13,4 +14,9 @@ module.exports.getDate = () => {
 
 module.exports.getProjectPath = () => {
     return path.resolve(__dirname, '..', '..');
+}
+
+module.exports.getENVValue = (key) => {
+    dotenv.config();
+    return process.env[key];
 }
