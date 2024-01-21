@@ -1,12 +1,55 @@
 const request = require('supertest');
 const app = require('../../index');
 
-describe('GET /', function() {
-    it('responds with json', function() {
+describe('GET /', () => {
+    it('responds 200 with json', () => {
       return request(app)
         .get('/')
         .set('Accept', 'application/json')
-        .set('Authorization', `Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIzLCJpYXQiOjE3MDU3ODU2NTN9.RSMDPYDIf6bB2g_R2gyW49OnZWbDqCQLXXU3X34g372TUju2cmb16HeXmNuMftHtoxnS8L5i5OyANZArOHSKag`)
         .expect(200)
+        .expect('Content-Type', /json/);
     });
-  });
+});
+
+describe('GET /authenticated', () => {
+    it('responds 200 with json and with jwt', () => {
+      return request(app)
+        .get('/authenticated')
+        .set('Accept', 'application/json')
+        .expect(200)
+        .expect('Content-Type', /json/)
+        .expect( (res) => {
+          if (!('jwt' in res.body)) {
+            throw new Error("Expected 'jwt' key in response body");
+          }
+        });
+    });
+});
+
+describe('GET /error', () => {
+    it('responds 410', () => {
+      return request(app)
+        .get('/error')
+        .set('Accept', 'application/json')
+        .expect(410)
+        .expect( (res) => {
+          if (!('errorKey' in res.body)) {
+            throw new Error("Expected 'errorKey' key in response body");
+          }
+        })
+    });
+});
+
+describe('GET /unhandled-error', () => {
+    it('responds 500', () => {
+      return request(app)
+        .get('/unhandled-error')
+        .set('Accept', 'application/json')
+        .expect(500)
+        .expect( (res) => {
+          if (!('errorKey' in res.body)) {
+            throw new Error("Expected 'errorKey' key in response body");
+          }
+        })
+    });
+});
