@@ -6,7 +6,7 @@ const requestLogMiddleware = require('./src/middlewares/request-log-middleware')
 const authenticationMiddleware = require('./src/middlewares/authentication-middleware');
 const errorMiddleware = require('./src/middlewares/error-middleware');
 
-const port = getENVValue('PORT');
+const port = 3000;
 
 app.use(requestLogMiddleware);
 app.use(authenticationMiddleware);
