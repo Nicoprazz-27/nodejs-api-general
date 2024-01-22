@@ -4,7 +4,7 @@ const CustomException = require('../utils/CustomException');
 const { createJWT } = require('../utils/authentication');
 
 app.get('', (req, res) =>{
-    res.status(200).send({});
+    res.status(200).send({id: 123});
 });
 
 app.get('/authenticated', (req, res)=> {
