@@ -1,23 +1,26 @@
 const express = require('express');
-const app = express();
 const CustomException = require('../utils/CustomException');
 const { createJWT } = require('../utils/authentication');
+const usersRoutes = require('./users-routes');
+const router = express.Router();
 
-app.get('', (req, res) =>{
+router.use('/users', usersRoutes);
+
+router.get('', (req, res) =>{
     res.status(200).send({});
 });
 
-app.get('/authenticated', (req, res)=> {
+router.get('/authenticated', (req, res)=> {
     const jwt = createJWT();
     res.status(200).send({jwt: jwt});
 });
 
-app.get('/error', (req, res, next) => {
+router.get('/error', (req, res, next) => {
     throw new CustomException(410, 'ERR_UNKNOWN', 'Message quelconque');
 })
 
-app.get('/unhandled-error', (req, res, next) => {
+router.get('/unhandled-error', (req, res, next) => {
     throw new Error('Message quelconque');
 })
 
-module.exports = app;
+module.exports = router;
