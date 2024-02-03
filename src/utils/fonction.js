@@ -1,7 +1,6 @@
 const path = require('path');
 const dotenv = require('dotenv');
 
-
 module.exports.getDate = () => {
     const todayDate = new Date();
 
@@ -10,6 +9,10 @@ module.exports.getDate = () => {
     const jour = todayDate.getDate().toString().padStart(2, '0');
  
     return `${annee}.${mois}.${jour}`;
+}
+
+module.exports.getUTCNow = () => {
+    return new Date().toISOString();
 }
 
 module.exports.getProjectPath = () => {
