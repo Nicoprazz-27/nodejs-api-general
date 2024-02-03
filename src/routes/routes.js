@@ -23,4 +23,4 @@ router.get('/unhandled-error', (req, res, next) => {
     throw new Error('Message quelconque');
 })
 
-module.exports = router;
+module.exports = app;
